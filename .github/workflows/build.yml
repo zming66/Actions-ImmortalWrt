@@ -87,7 +87,12 @@ jobs:
 
       - name: 编译 ImmortalWrt (Build ImmortalWrt)
         working-directory: ImmortalWrt
-        run: make -j${{ inputs.multithreading && nproc || 1 }} V=s
+        run: |
+          if [ "${{ inputs.multithreading }}" = "true" ]; then
+            make -j$(nproc) V=s
+          else
+            make -j1 V=s
+          fi
 
       - name: 上传编译结果到 Artifact (Upload build result to Artifact)
         uses: actions/upload-artifact@v4
@@ -126,7 +131,12 @@ jobs:
 
       - name: 编译 ImmortalWrt (Build ImmortalWrt)
         working-directory: ImmortalWrt
-        run: make -j${{ inputs.multithreading && nproc || 1 }} V=s
+        run: |
+          if [ "${{ inputs.multithreading }}" = "true" ]; then
+            make -j$(nproc) V=s
+          else
+            make -j1 V=s
+          fi
 
       - name: 上传编译结果到 Artifact (Upload build result to Artifact)
         uses: actions/upload-artifact@v4
